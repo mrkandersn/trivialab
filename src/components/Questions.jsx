@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { getResultText } from '../utils/wordUtils';
-import { Link } from "react-router-dom";
 
 const Questions = ({ topic, questions, setSelectedTopic }) => {
 
     const [currentId, setCurrentId] = useState(0);
     const [answerId, setAnswerId] = useState(null);
     const [score, setScore] = useState(0);
-    const [showScore, setShowScore] = useState(false);
-
-    console.log('questions', questions);
-    console.log('currentId', currentId);
 
     const checkAnswer = (id) => {
         setAnswerId(id);
-        console.log('checkAnswer', isCorrectAnswer(), id, answerId,);
         if (id === currentQuestion().correctAnswer) {
             setScore(prev => prev + 1)
-            console.log('setscore', score);
         }
-        console.log('score, answerId', score, answerId);
     }
 
     const goToNextQuestion = () => {
@@ -27,10 +20,8 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
         setAnswerId(null)
         // TODO check for end
         setCurrentId((prev) => {
-            console.log('currentId to inc', prev, prev + 1)
             return prev + 1
         })
-        console.log('currentId', currentId);
     }
 
     const currentQuestion = () => questions[currentId] || {}
@@ -48,7 +39,6 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
     }
 
     const isCorrectAnswer = () => {
-        console.log('isCorrectAnswer', answerId, currentQuestion().correctAnswer)
         return isAnswered() && answerId === currentQuestion().correctAnswer
     }
 
@@ -60,8 +50,6 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
     }
 
     const showAnswerEmoji = (index) => {
-        // { showAnswerResult() && index === currentQuestion().correctAnswer && <div>✅</div>}
-        // { showAnswerResult() && index === answerId && <div>❌</div>}
         if (!isAnswered()) {
             return false;
         }
@@ -83,7 +71,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
                 ?
                 <>
                     <h1>Questions for {topic}</h1>
-                    <h2 class="py-8 text-lg font-bold">#{currentId + 1}: {currentQuestion().question}</h2>
+                    <h2 className="py-8 text-lg font-bold">#{currentId + 1}: {currentQuestion().question}</h2>
                     <div className='flex justify-between flex-wrap gap-4'>
                         {currentQuestion().answers?.map((answer, index) => (
                             <button
@@ -136,6 +124,11 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
             )}
         </div>
     );
+};
+Questions.propTypes = {
+    topic: PropTypes.string.isRequired,
+    questions: PropTypes.array.isRequired,
+    setSelectedTopic: PropTypes.func.isRequired,
 };
 
 export default Questions;

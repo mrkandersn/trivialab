@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TopicSelector from './components/TopicSelector';
 import Questions from './components/Questions';
-import ApiKeyTest from './components/ApiKeyTest';
 import './index.css';
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
     console.log('Selected topic:', topic);
     console.log('Generated questions:', questions);
     setQuestions(questions)
-    // TODO: Navigate to quiz interface with questions
   };
 
   return (

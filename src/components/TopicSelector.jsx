@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-// import { validateTopic, generateTriviaQuestions } from '../services/huggingFaceAPI';
+import PropTypes from 'prop-types';
 import { validateTopic, generateTriviaQuestions } from '../services/claudeApi';
-import questionData from '../stubData';
 import { getRandomTopicsString } from '../utils/topicUtils';
 
 function TopicSelector({ onTopicSubmit }) {
@@ -23,18 +22,10 @@ function TopicSelector({ onTopicSubmit }) {
         try {
             // First validate the topic
             const validation = await validateTopic(topic.trim());
-            console.log('VALIDATION', validation, validation.isValid)
-
-            // TEMP hardcode response
-            //   const validation = {
-            //     isValid: true,
-            //     reason: 'Dummy response'
-            //   }
 
             if (!validation.isValid) {
                 setValidationMessage(`❌ ${validation.reason}`);
                 setSuggestions(validation.suggestions)
-                console.log('suggestions', validation.suggestions)
                 setIsSubmitting(false);
                 setIsValidating(false);
                 setTopic('')
@@ -42,7 +33,6 @@ function TopicSelector({ onTopicSubmit }) {
             }
 
             // If valid, generate questions
-            console.log('SET VALIDATION REASON', validation.reason)
             setValidationMessage(`✅ ${validation.reason}`);
             getQuestions(validation.topicTitle);
 
@@ -76,15 +66,10 @@ function TopicSelector({ onTopicSubmit }) {
         onTopicSubmit(topic.trim(), questions);
     }
 
-    const popularTopics = [
-        'Science', 'History', 'Sports', 'Movies', 'Music',
-        'Geography', 'Literature', 'Art', 'Food'
-    ];
-
     return (
         <div className="bg-white/95 backdrop-blur-xs p-8 rounded-3xl shadow-2xl border border-white/20 max-w-2xl animate-fade-in-up">
             <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold mb-4 bg-linear-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold mb-4">
                     🧠 Trivia Challenge
                 </h1>
                 <p className="text-gray-600 text-lg leading-relaxed">
@@ -163,5 +148,9 @@ function TopicSelector({ onTopicSubmit }) {
         </div>
     );
 }
+
+TopicSelector.propTypes = {
+    onTopicSubmit: PropTypes.func.isRequired,
+};
 
 export default TopicSelector;
