@@ -1,0 +1,45 @@
+import React, { useState } from 'react';
+import TopicSelector from './components/TopicSelector';
+import Questions from './components/Questions';
+import ApiKeyTest from './components/ApiKeyTest';
+import './index.css';
+
+function App() {
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [questions, setQuestions] = useState(null);
+
+  const handleTopicSubmit = (topic, questions) => {
+    setSelectedTopic(topic);
+    console.log('Selected topic:', topic);
+    console.log('Generated questions:', questions);
+    setQuestions(questions)
+    // TODO: Navigate to quiz interface with questions
+  };
+
+  return (
+    <div className="min-h-screen flex justify-center bg-linear-to-br from-indigo-500 to-purple-600 font-sans antialiased p-4">
+      <div className="w-full max-w-2xl">
+        {!selectedTopic ? (
+            <>
+                <TopicSelector onTopicSubmit={handleTopicSubmit} />
+            </>
+        ) : (
+          <div className="bg-white/95 backdrop-blur-xs p-8 rounded-3xl shadow-2xl border border-white/20">
+            <Questions topic={selectedTopic} questions={questions} setSelectedTopic={() => setSelectedTopic()} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+{/* <button
+onClick={() => setSelectedTopic(null)}
+className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+>
+Choose Different Topic
+</button> */}
+
+
+export default App;
