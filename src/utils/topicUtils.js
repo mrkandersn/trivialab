@@ -79,7 +79,6 @@ const getRandomTopics = (count) => {
 }
 
 const getRandomTopicsString = (count) => {
-    console.log(getRandomTopics(count), typeof getRandomTopics(count))
     return getRandomTopics(count).join(", ")
 }
 

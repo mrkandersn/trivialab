@@ -9,8 +9,6 @@ function App() {
 
   const handleTopicSubmit = (topic, questions) => {
     setSelectedTopic(topic);
-    console.log('Selected topic:', topic);
-    console.log('Generated questions:', questions);
     setQuestions(questions)
   };
 

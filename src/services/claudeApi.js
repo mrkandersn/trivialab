@@ -10,7 +10,7 @@ const makeAiRequest = async (prompt) => {
     return JSON.parse(data.text);
   } catch (error) {
     console.error("OpenAI API Error:", error);
-    throw error;
+    return error;
   }
 };
 
@@ -27,24 +27,25 @@ export const validateTopic = async (topic) => {
   let topicTitle = null;
 
   // Determine if the topic is suitable for trivia
-  const prompt = `Is "${topic}" a suitable topic for generating trivia questions? Consider:
-        - Is it factual?
-        - Is it unambiguous?
-        - Can meaningful questions be generated about it?
-        - Is it not too vague?
+  const prompt = `
+    Is "${topic}" a suitable topic for generating trivia questions? 
+    
+    Consider:
+      - Is it factual?
+      - Is it unambiguous?
+      - Can meaningful questions be generated about it?
+      - Is it not too vague?
 
-        Respond in valid JSON format (without any surrounding text or markdown formatting) with:
-        1. "isValid: true" or "isValid: false"
-        2. a short "reason" in a casual tone and no more than 100 characters
-        3. a "topicTitle" that is corrected title in terms of spelling, punctuation and format
-        4. if the topic is not valid, provide three short suggestions or alternatives related to "${topic}". Keep suggestions brief, maximum six words.
+      Respond in valid JSON format (without any surrounding text or markdown formatting) with:
+      1. "isValid: true" or "isValid: false"
+      2. a short "reason" providing context for the answer in a casual tone, and no more than 100 characters
+      3. a "topicTitle" that is corrected title in terms of spelling, punctuation and format
+      4. if the topic is not valid, provide three short suggestions or alternatives related to "${topic}". Keep suggestions brief, maximum six words.
     `;
 
   try {
     // Use OpenAI client for validation
     const response = await makeAiRequest(prompt);
-
-    console.log("response", response);
 
     topicTitle = response.topicTitle;
     isValid = response.isValid;

@@ -4,7 +4,7 @@
   --animate-bounce-slow: bounce 2s infinite;
   --animate-fade-in-up: fadeInUp 0.8s ease-out;
   --animate-fade-in: fadeIn 1s ease-in-out;
-
+  --animate-text-color: textColorChange 1.2s ease-in-out infinite;
   @keyframes fadeInUp {
     0% {
       opacity: 0;
@@ -21,6 +21,15 @@
     }
     100% {
       opacity: 1;
+    }
+  }
+    @keyframes textColorChange {
+    0%,
+    100% {
+      color: white;
+    }
+    50% {
+      color: #e9d4ff;
     }
   }
   --animate-shake: shake 1s ease-out;

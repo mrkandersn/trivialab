@@ -40,6 +40,19 @@
       "Not happening.",
       "That’s a miss."
     ];
+
+    const scorePhrases = [
+      "Oops! 😬",
+      "Keep trying. 👍",
+      "Getting closer. 🤔",
+      "Not bad. 🙂",
+      "Halfway there. 🏃‍♂️",
+      "Looking good. 😎",
+      "Well done. 👏",
+      "Nice work. 🎉",
+      "So close! 😮",
+      "You nailed it! 🏆"
+    ]
   
     export function getRandomSuccess() {
       return successWords[Math.floor(Math.random() * successWords.length)];
@@ -51,6 +64,10 @@
 
     export const getResultText = (success) => {
         return success ? getRandomSuccess() : getRandomFail();
+    }
+
+    export const getScorePhrase = (score) => {
+      return scorePhrases[score];
     }
 
   
