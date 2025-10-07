@@ -70,8 +70,8 @@ function TopicSelector({ onTopicSubmit }) {
   return (
     <div className="bg-white/95 backdrop-blur-xs p-8 rounded-3xl shadow-2xl border border-white/20 max-w-2xl animate-fade-in-up">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-2">🧠 The TriviaLab 🧠</h1>
-        <p className="text-gray-600 text-lg leading-relaxed">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">🧠 The TriviaLab 🧠</h1>
+        <p className="text-gray-600 text-sm md:text-lg">
           Pick a topic and test your knowledge.
         </p>
       </div>
@@ -82,7 +82,7 @@ function TopicSelector({ onTopicSubmit }) {
             htmlFor="topic"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            What topic would you like to be quizzed on?
+            What topic will you tackle?
           </label>
           <input
             type="text"
@@ -90,7 +90,7 @@ function TopicSelector({ onTopicSubmit }) {
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder={`e.g., ${placeholderText}...`}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-lg placeholder:text-xs"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-lg placeholder:text-xs truncate"
             disabled={isSubmitting}
           />
         </div>

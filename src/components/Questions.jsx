@@ -68,10 +68,10 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
 
   return (
     <>
-      <div className="flex justify-between items-center text-lg text-purple-800 font-medium border-b border-b-purple-800">
+      <div className="flex gap-x-4 items-end justify-between text-lg text-purple-800 font-medium border-b border-b-purple-800">
         <h1>TriviaLab: {topic}</h1>
         { currentId < questions.length &&
-            <div>
+            <div className="text-nowrap">
                 {currentId + 1} of {questions.length}
             </div>
         }
