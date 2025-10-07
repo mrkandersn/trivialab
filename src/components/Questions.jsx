@@ -121,7 +121,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
         )}
 
         {showAnswerResult() && (
-          <aside className="py-4 text-sm rounded-lg border border-purple-200 p-6 my-6">
+          <aside className="py-4 text-xs md:text-sm rounded-lg border border-purple-200 p-4 md:p-6 my-6">
             <span
               className={`
                         font-bold 
