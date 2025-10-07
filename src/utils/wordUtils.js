@@ -67,7 +67,7 @@
     }
 
     export const getScorePhrase = (score) => {
-      return scorePhrases[score];
+      return scorePhrases[Math.max(score - 1, 0)];
     }
 
   
