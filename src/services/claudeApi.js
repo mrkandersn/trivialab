@@ -1,16 +1,22 @@
-const makeAiRequest = async (prompt) => {
+const makeAiRequest = async (prompt, retries = 3) => {  
+
   try {
     const response = await fetch("/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt }),
     });
+
     const data = await response.json();
 
     return JSON.parse(data.text);
   } catch (error) {
     console.error("OpenAI API Error:", error);
-    return error;
+    if (retries > 0) {
+      console.warn(`Retrying... (${retries} attempts left)`);
+      return makeAiRequest(prompt, retries - 1);
+    }
+    return null;
   }
 };
 
@@ -21,46 +27,37 @@ const makeAiRequest = async (prompt) => {
  */
 export const validateTopic = async (topic) => {
 
-  let isValid = false;
-  let reason = "Something bad happened.";
-  let suggestions = [];
-  let topicTitle = null;
+  let topicData = {}
 
   // Determine if the topic is suitable for trivia
   const prompt = `
-    Is "${topic}" a suitable topic for generating trivia questions? 
-    
-    Consider:
-      - Is it factual?
-      - Is it unambiguous?
-      - Can meaningful questions be generated about it?
-      - Is it not too vague?
+    Determine if "${topic}" is a suitable topic for generating trivia questions.
 
-      Respond in valid JSON format (without any surrounding text or markdown formatting) with:
-      1. "isValid: true" or "isValid: false"
-      2. a short "reason" providing context for the answer in a casual tone, and no more than 100 characters
-      3. a "topicTitle" that is corrected title in terms of spelling, punctuation and format
-      4. if the topic is not valid, provide three short suggestions or alternatives related to "${topic}". Keep suggestions brief, maximum six words.
-    `;
+    Consider:
+    - Is it factual?
+    - Is it unambiguous?
+    - Can meaningful questions be generated about it?
+    - Is it not too vague?
+
+    Respond ONLY in valid JSON (no markdown or extra text) with the following fields:
+    {
+      "isValid": true or false,
+      "reason": "Brief explanation in a casual tone (max 100 characters)",
+      "topicTitle": "Corrected version of the topic (proper spelling, punctuation, and capitalization)",
+      "suggestions": ["Alt 1", "Alt 2", "Alt 3"] // Only include if isValid is false
+    }
+  `;
 
   try {
     // Use OpenAI client for validation
     const response = await makeAiRequest(prompt);
 
-    topicTitle = response.topicTitle;
-    isValid = response.isValid;
-    reason = response.reason;
-    suggestions = response.suggestions || [];
+    return response;
   } catch (apiError) {
     console.warn("API validation failed:", apiError.message);
   }
 
-  return {
-    topicTitle,
-    isValid,
-    reason,
-    suggestions,
-  };
+  return null;
 };
 
 /**
@@ -72,29 +69,28 @@ export const validateTopic = async (topic) => {
 export const generateTriviaQuestions = async (topic, numQuestions = 10) => {
 
   const prompt = `
-        Generate ${numQuestions} trivia questions about "${topic}". Each question should have:
-                1. A clear, factual question
-                2. 4 multiple choice answers (A, B, C, D)
-                3. A brief description in a casual tone that provides additional clarification or explanation of the correct answer
+    Generate exactly ${numQuestions} trivia questions about "${topic}".
 
-        Make sure questions are factual.
+    Each question must include:
+    1. A clear, factual question.
+    2. Four multiple-choice answers labeled A–D.
+    3. A short, casual description that briefly explains or adds context to the correct answer.
+    4. Avoid using specific years or dates as answers unless they are especially significant or well-known.
 
-        Return results with valid JSON syntax without Markdown prefix, using this format:
-        [
-            {
-                "id": A unique ID (0, 1, 2...),
-                "question": The text of the question
-                "answers": [
-                    0: Answer 0,
-                    1: Answer 1,
-                    2: Answer 2,
-                    ...
-                ],
-                "correctAnswer": Number of correct answer,
-                "description": Description text
-            },
-            ...additional questions
-        ]
+    All questions must be factual and unambiguous.
+
+    Return the result as valid, minified JSON (no Markdown, code fences, or commentary), in this format:
+
+    [
+      {
+        "id": 0,
+        "question": "Question text here",
+        "answers": ["Answer A", "Answer B", "Answer C", "Answer D"],
+        "correctAnswer": 1,
+        "description": "Brief casual explanation of the correct answer."
+      },
+      ...more questions
+    ]
     `;
 
   try {
@@ -104,5 +100,5 @@ export const generateTriviaQuestions = async (topic, numQuestions = 10) => {
     console.warn(`Failed:`, err);
   }
 
-  return;
+  return null;
 };

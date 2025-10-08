@@ -21,11 +21,10 @@ function TopicSelector({ onTopicSubmit }) {
     try {
       // First validate the topic
       const validation = await validateTopic(topic.trim());
-        setIsValidTopic(validation.isValid);
-        setValidationMessage(validation.reason);
+      setIsValidTopic(validation.isValid);
+      setValidationMessage(validation.reason);
 
       if (!validation.isValid) {
-        
         setSuggestions(validation.suggestions);
         setIsSubmitting(false);
         setTopic("");
@@ -48,9 +47,10 @@ function TopicSelector({ onTopicSubmit }) {
 
     const questions = await generateTriviaQuestions(topic.trim(), 10);
 
-    if (questions.length === 0) {
+    if (questions === null) {
+      setIsValidTopic(false);
       setValidationMessage(
-        "Unable to generate questions for this topic. Please try a different one."
+        "Oops! Something bad happened. Please try again."
       );
       setIsSubmitting(false);
       return;
@@ -65,16 +65,18 @@ function TopicSelector({ onTopicSubmit }) {
     setValidationMessage("");
     // Immediately get questions for this topic
     getQuestions(suggestedTopic);
-  }
+  };
 
   return (
     <div className="bg-white/95 backdrop-blur-xs p-8 rounded-3xl shadow-2xl border border-white/20 max-w-2xl animate-fade-in-up">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">🧠 The TriviaLab 🧠</h1>
+      <header className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">
+          🧠 The TriviaLab 🧠
+        </h1>
         <p className="text-gray-600 text-sm md:text-lg">
           Pick a topic and test your knowledge.
         </p>
-      </div>
+      </header>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -113,7 +115,7 @@ function TopicSelector({ onTopicSubmit }) {
                 <div className="absolute -right-2 -top-2">✅</div>
               )}
             </div>
-            {!isValidTopic && (
+            {!isValidTopic && suggestions.length > 0 && (
               <>
                 <h4 className="text-sm">
                   Enter another topic, or try one of these suggestions:

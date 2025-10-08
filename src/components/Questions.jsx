@@ -68,15 +68,15 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
 
   return (
     <>
-      <div className="flex gap-x-4 items-end justify-between text-lg text-purple-800 font-medium border-b border-b-purple-800">
+      <header className="flex gap-x-4 items-end justify-between text-lg text-purple-800 font-medium border-b border-b-purple-800">
         <h1>TriviaLab: {topic}</h1>
         { currentId < questions.length &&
             <div className="text-nowrap">
                 {currentId + 1} of {questions.length}
             </div>
         }
-      </div>
-      <div>
+      </header>
+      <div key={currentId} className="transition-all duration-500">
         {currentId < questions.length ? (
           <>
             <h2 className="py-8 text-2xl font-bold">
@@ -108,8 +108,8 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
         ) : (
           <>
             <div className="py-8 text-2xl font-bold">
-                Done! You got {`${score} out of ${questions.length}`} correct.&nbsp;
-                {getScorePhrase(score)}
+                <p className="mb-2">Done! You got {`${score} out of ${questions.length}`} correct.</p>
+                <p>{getScorePhrase(score)}</p>
             </div>
             <button
               onClick={() => setSelectedTopic(null)}
@@ -121,7 +121,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
         )}
 
         {showAnswerResult() && (
-          <aside className="py-4 text-xs md:text-sm rounded-lg border border-purple-200 p-4 md:p-6 my-6">
+          <aside className="py-4 text-sm rounded-lg border border-purple-200 p-4 md:p-6 my-6">
             <span
               className={`
                         font-bold 

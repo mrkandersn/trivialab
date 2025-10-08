@@ -37,8 +37,7 @@
       "Oops.",
       "Nah.",
       "Too bad.",
-      "Not happening.",
-      "That’s a miss."
+      "Miss."
     ];
 
     const scorePhrases = [

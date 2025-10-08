@@ -29,13 +29,4 @@ function App() {
   );
 }
 
-
-{/* <button
-onClick={() => setSelectedTopic(null)}
-className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
->
-Choose Different Topic
-</button> */}
-
-
 export default App;
