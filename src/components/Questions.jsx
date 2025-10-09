@@ -136,7 +136,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
 
         {isAnswered() && (
           <button
-            className="py-2 px-3 rounded-lg font-medium select-none border text-gray-900 bg-white transition-colors hover:border-blue-600 hover:bg-blue-400 hover:text-white mx-auto block"
+            className="py-2 px-3 rounded-lg font-medium select-none border text-gray-900 bg-white transition-colors hover:border-blue-600 hover:bg-blue-400 hover:text-white mx-auto block cursor-pointer"
             onClick={goToNextQuestion}
           >
             {currentQuestion().id + 1 < questions.length
