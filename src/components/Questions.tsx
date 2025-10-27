@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { getResultText, getScorePhrase } from "src/utils/wordUtils";
-import { Question } from "src/types/question";
+import React, { useState } from 'react';
+import { getResultText, getScorePhrase } from 'src/utils/wordUtils';
+import { Question } from 'src/types/question';
 
 type QuestionsProps = {
   topic: string;
   questions: Question[];
-  setSelectedTopic: (topic: string | undefined) => void;
+  setSelectedTopic: (topic: string | null) => void;
 }
 
 const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
   const [currentId, setCurrentId] = useState<number>(0);
-  const [answerId, setAnswerId] = useState<number | undefined>(undefined);
+  const [answerId, setAnswerId] = useState<number | null>(null);
   const [score, setScore] = useState<number>(0);
 
   const checkAnswer = (id: number) => {
@@ -23,7 +22,7 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
 
   const goToNextQuestion = () => {
     // Reset answer, go to next
-    setAnswerId(undefined);
+    setAnswerId(null);
     // TODO check for end
     setCurrentId((prev) => {
       return prev + 1;
@@ -36,11 +35,11 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
     if (index === answerId) {
       // Set state for clicked button
       return isCorrectAnswer()
-        ? "border-green-500  animate-zoom"
-        : "border-red-500 animate-shake";
+        ? 'border-green-500  animate-zoom'
+        : 'border-red-500 animate-shake';
     } else if (isAnswered() && index === currentQuestion().correctAnswer) {
       // Set state for correct answer, if answer is incorrect
-      return "border-green-500";
+      return 'border-green-500';
     }
 
     return null;
@@ -61,7 +60,7 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
     if (!isAnswered()) {
       return false;
     }
-    const classes = "absolute -right-2 -top-2";
+    const classes = 'absolute -right-2 -top-2';
     if (index === currentQuestion().correctAnswer) {
       return <div className={classes}>✅</div>;
     } else if (index === answerId) {
@@ -99,8 +98,8 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
                                 relative grow-1 basis-auto px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg transition-colors duration-200 border border-gray-500 
                                 ${
                                   !isAnswered()
-                                    ? "hover:text-indigo-800 hover:bg-indigo-100 hover:border-indigo-500 cursor-pointer"
-                                    : ""
+                                    ? 'hover:text-indigo-800 hover:bg-indigo-100 hover:border-indigo-500 cursor-pointer'
+                                    : ''
                                 }
                                 ${getStatusClass(index)}
                             `}
@@ -119,7 +118,7 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
                 <p>{getScorePhrase(score)}</p>
             </div>
             <button
-              onClick={() => setSelectedTopic(undefined)}
+              onClick={() => setSelectedTopic(null)}
               className="py-2 px-3 rounded-lg font-medium select-none border text-gray-900 bg-white transition-colors hover:border-blue-600 hover:bg-blue-400 hover:text-white mx-auto block cursor-pointer"
             >
               Try again with new topic
@@ -132,11 +131,11 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
             <span
               className={`
                         font-bold 
-                        ${isCorrectAnswer() ? "text-green-600" : "text-red-600"}
+                        ${isCorrectAnswer() ? 'text-green-600' : 'text-red-600'}
                     `}
             >
               {showAnswerResult()}
-            </span>{" "}
+            </span>{' '}
             {currentQuestion().description}
           </aside>
         )}
@@ -147,19 +146,14 @@ const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
             onClick={goToNextQuestion}
           >
             {currentQuestion().id + 1 < questions.length
-              ? "Next Question"
-              : "See Results"}
-            {" \u2192"}
+              ? 'Next Question'
+              : 'See Results'}
+            {' \u2192'}
           </button>
         )}
       </div>
     </>
   );
-};
-Questions.propTypes = {
-  topic: PropTypes.string.isRequired,
-  questions: PropTypes.array.isRequired,
-  setSelectedTopic: PropTypes.func.isRequired,
 };
 
 export default Questions;

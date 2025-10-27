@@ -1,54 +1,54 @@
 // TriviaTopics.js
 const categories = {
     arts: [
-        "Beatles Albums", "Disney Classics", "Broadway Musicals", "Oscar Winners",
-        "James Bond", "Marvel Universe", "90s Sitcoms", "Studio Ghibli",
-        "Shakespeare Plays", "Renaissance Painters"
+        'Beatles Albums', 'Disney Classics', 'Broadway Musicals', 'Oscar Winners',
+        'James Bond', 'Marvel Universe', '90s Sitcoms', 'Studio Ghibli',
+        'Shakespeare Plays', 'Renaissance Painters'
     ],
     literature: [
-        "Harry Potter", "Jane Austen", "Famous Openings", "Pulitzer Novels",
-        "Greek Mythology", "Science Fiction", "Agatha Christie", "Children’s Literature",
-        "Nobel Literature", "Romantic Poetry"
+        'Harry Potter', 'Jane Austen', 'Famous Openings', 'Pulitzer Novels',
+        'Greek Mythology', 'Science Fiction', 'Agatha Christie', 'Children’s Literature',
+        'Nobel Literature', 'Romantic Poetry'
     ],
     science: [
-        "Periodic Table", "Space Exploration", "20th Century Inventions", "Programming Languages",
-        "Human Anatomy", "Famous Physicists", "Dinosaurs", "Solar System",
-        "Medical Breakthroughs", "Artificial Intelligence"
+        'Periodic Table', 'Space Exploration', '20th Century Inventions', 'Programming Languages',
+        'Human Anatomy', 'Famous Physicists', 'Dinosaurs', 'Solar System',
+        'Medical Breakthroughs', 'Artificial Intelligence'
     ],
     history: [
-        "US Presidents", "Civil War", "Cold War", "Ancient Egypt",
-        "Roman Empire", "French Revolution", "WWII Leaders", "Civil Rights",
-        "World Treaties", "Berlin Wall"
+        'US Presidents', 'Civil War', 'Cold War', 'Ancient Egypt',
+        'Roman Empire', 'French Revolution', 'WWII Leaders', 'Civil Rights',
+        'World Treaties', 'Berlin Wall'
     ],
     geography: [
-        "State Capitals", "World Landmarks", "Seven Wonders", "Famous Rivers",
-        "National Parks", "Mountains", "European Countries", "Asian Cities",
-        "African Geography", "Lost Countries"
+        'State Capitals', 'World Landmarks', 'Seven Wonders', 'Famous Rivers',
+        'National Parks', 'Mountains', 'European Countries', 'Asian Cities',
+        'African Geography', 'Lost Countries'
     ],
     sports: [
-        "World Cup", "Olympic Cities", "Tennis Grand Slams", "NBA MVPs",
-        "Tour de France", "World Series", "Winter Olympics", "Cricket World Cup",
-        "Boxing Legends", "Golf Majors"
+        'World Cup', 'Olympic Cities', 'Tennis Grand Slams', 'NBA MVPs',
+        'Tour de France', 'World Series', 'Winter Olympics', 'Cricket World Cup',
+        'Boxing Legends', 'Golf Majors'
     ],
     popCulture: [
-        "YouTubers", "Netflix Originals", "Super Bowl", "Simpsons Episodes",
-        "Pokémon", "Video Game Consoles", "2010s Memes", "SNL Cast",
-        "90s Anime", "MTV Videos"
+        'YouTubers', 'Netflix Originals', 'Super Bowl', 'Simpsons Episodes',
+        'Pokémon', 'Video Game Consoles', '2010s Memes', 'SNL Cast',
+        '90s Anime', 'MTV Videos'
     ],
     food: [
-        "Pasta Types", "Famous Cheeses", "World Cuisines", "Coffee Varieties",
-        "Cocktail Recipes", "Famous Chefs", "Chocolate Brands", "Michelin Stars",
-        "Sushi Types", "Street Foods"
+        'Pasta Types', 'Famous Cheeses', 'World Cuisines', 'Coffee Varieties',
+        'Cocktail Recipes', 'Famous Chefs', 'Chocolate Brands', 'Michelin Stars',
+        'Sushi Types', 'Street Foods'
     ],
     misc: [
-        "Dog Breeds", "Cat Breeds", "Board Games", "LEGO Themes",
-        "Candy Brands", "80s Cartoons", "90s Toys", "Mythical Creatures",
-        "Land Expeditions", "Phobias"
+        'Dog Breeds', 'Cat Breeds', 'Board Games', 'LEGO Themes',
+        'Candy Brands', '80s Cartoons', '90s Toys', 'Mythical Creatures',
+        'Land Expeditions', 'Phobias'
     ],
     quirky: [
-        "Animal Flags", "Peace Prize", "Famous Pirates", "Cryptids",
-        "Olympic Mascots", "Constellations", "European Castles", "Banned Books",
-        "Failed Inventions", "Largest Structures"
+        'Animal Flags', 'Peace Prize', 'Famous Pirates', 'Cryptids',
+        'Olympic Mascots', 'Constellations', 'European Castles', 'Banned Books',
+        'Failed Inventions', 'Largest Structures'
     ]
 };
 
@@ -76,10 +76,10 @@ const getRandomTopics = (count) => {
     }
 
     return chosenTopics;
-}
+};
 
 const getRandomTopicsString = (count) => {
-    return getRandomTopics(count).join(", ")
-}
+    return getRandomTopics(count).join(', ');
+};
 
-export { getRandomTopics, getRandomTopicsString}
+export { getRandomTopics, getRandomTopicsString};

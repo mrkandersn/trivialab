@@ -1,12 +1,12 @@
-import { Question } from "src/types/question";
-import { TopicResponse } from "src/types/topic";
+import { Question } from 'src/types/question';
+import { TopicResponse } from 'src/types/topic';
 
 const makeAiRequest = async <T>(prompt: string, retries = 3): Promise<T | null> => {  
 
   try {
-    const response = await fetch("/api/ask", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt }),
     });
 
@@ -14,7 +14,7 @@ const makeAiRequest = async <T>(prompt: string, retries = 3): Promise<T | null> 
 
     return JSON.parse(data.text) as T;
   } catch (error) {
-    console.error("OpenAI API Error:", error);
+    console.error('OpenAI API Error:', error);
     if (retries > 0) {
       console.warn(`Retrying... (${retries} attempts left)`);
       return makeAiRequest<T>(prompt, retries - 1);
@@ -56,9 +56,9 @@ export const validateTopic = async (topic: string): Promise<TopicResponse | null
     return response;
   } catch (apiError) {
     if (apiError instanceof Error) {
-      console.warn("API validation failed:", apiError.message);
+      console.warn('API validation failed:', apiError.message);
     } else {
-      console.warn("API validation failed:", String(apiError));
+      console.warn('API validation failed:', String(apiError));
     }
   }
 
@@ -102,7 +102,7 @@ export const generateTriviaQuestions = async (topic: string, numQuestions = 10):
     const response = await makeAiRequest<Question[]>(prompt);
     return response;
   } catch (err) {
-    console.warn(`Failed:`, err);
+    console.warn('Failed:', err);
   }
 
   return null;

@@ -5,12 +5,12 @@ import './index.css';
 import type { Question } from './types/question';
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState<string | undefined>();
+  const [selectedTopic, setSelectedTopic] = useState<string | null>();
   const [questions, setQuestions] = useState<Question[]>([]);
 
   const handleTopicSubmit = (topic: string, questions: Question[]) => {
     setSelectedTopic(topic);
-    setQuestions(questions)
+    setQuestions(questions);
   };
 
   return (

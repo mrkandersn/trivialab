@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { validateTopic, generateTriviaQuestions } from "src/services/claudeApi";
-import { getRandomTopicsString } from "src/utils/topicUtils";
-import type { Question } from "src/types/question";
+import React, { useState } from 'react';
+import { validateTopic, generateTriviaQuestions } from 'src/services/claudeApi';
+import { getRandomTopicsString } from 'src/utils/topicUtils';
+import type { Question } from 'src/types/question';
 
 type TopicSelectorProps = {
   onTopicSubmit: (topic: string, questions: Question[]) => void;
 }
 
 function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [validationMessage, setValidationMessage] = useState("");
+  const [validationMessage, setValidationMessage] = useState('');
   const [isValidTopic, setIsValidTopic] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [placeholderText] = useState(() => getRandomTopicsString(5));
@@ -21,7 +20,7 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
     if (!topic.trim()) return;
 
     setIsSubmitting(true);
-    setValidationMessage("");
+    setValidationMessage('');
 
     try {
       // First validate the topic
@@ -36,15 +35,15 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
       if (!validation.isValid) {
         setSuggestions(validation.suggestions);
         setIsSubmitting(false);
-        setTopic("");
+        setTopic('');
         return;
       }
 
       // If valid, generate questions
       getQuestions(validation.topicTitle);
     } catch (error) {
-      console.error("Error processing topic:", error);
-      setValidationMessage("Oops. Error processing topic. Please try again.");
+      console.error('Error processing topic:', error);
+      setValidationMessage('Oops. Error processing topic. Please try again.');
       setIsSubmitting(false);
     }
   };
@@ -59,7 +58,7 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
     if (questions === null) {
       setIsValidTopic(false);
       setValidationMessage(
-        "Oops! Something bad happened. Please try again."
+        'Oops! Something bad happened. Please try again.'
       );
       setIsSubmitting(false);
       return;
@@ -69,9 +68,9 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
     onTopicSubmit(topic.trim(), questions);
   };
 
-  const useSuggestedTopic = (suggestedTopic: string) => {
+  const handleSuggestedTopic = (suggestedTopic: string) => {
     // Clear invalid message
-    setValidationMessage("");
+    setValidationMessage('');
     // Immediately get questions for this topic
     getQuestions(suggestedTopic);
   };
@@ -113,8 +112,8 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
                             relative p-3 rounded-lg text-sm font-medium animate-fade-in 
                             ${
                               !isValidTopic
-                                ? "text-red-700 border border-red-200"
-                                : "text-green-700 border border-green-500"
+                                ? 'text-red-700 border border-red-200'
+                                : 'text-green-700 border border-green-500'
                             }`}
             >
               {validationMessage}
@@ -134,7 +133,7 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
                     <button
                       key={topic}
                       type="button"
-                      onClick={() => useSuggestedTopic(topic)}
+                      onClick={() => handleSuggestedTopic(topic)}
                       className="px-3 py-2 text-sm bg-gray-100 hover:bg-indigo-100 text-gray-700 hover:text-indigo-700 rounded-lg transition-colors duration-200 border border-transparent hover:border-indigo-200 cursor-pointer"
                       disabled={isSubmitting}
                     >
@@ -155,10 +154,10 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
           {isSubmitting ? (
             <div className="flex items-center justify-center animate-text-color">
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              {isValidTopic ? "Generating Questions..." : "Validating Topic..."}
+              {isValidTopic ? 'Generating Questions...' : 'Validating Topic...'}
             </div>
           ) : (
-            "Start Trivia Quiz"
+            'Start Trivia Quiz'
           )}
         </button>
       </form>
@@ -173,9 +172,5 @@ function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
     </div>
   );
 }
-
-TopicSelector.propTypes = {
-  onTopicSubmit: PropTypes.func.isRequired,
-};
 
 export default TopicSelector;
