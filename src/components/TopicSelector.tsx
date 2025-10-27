@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { validateTopic, generateTriviaQuestions } from "../services/claudeApi";
-import { getRandomTopicsString } from "../utils/topicUtils";
+import { validateTopic, generateTriviaQuestions } from "src/services/claudeApi";
+import { getRandomTopicsString } from "src/utils/topicUtils";
+import type { Question } from "src/types/question";
 
-function TopicSelector({ onTopicSubmit }) {
+type TopicSelectorProps = {
+  onTopicSubmit: (topic: string, questions: Question[]) => void;
+}
+
+function TopicSelector({ onTopicSubmit }: TopicSelectorProps) {
   const [topic, setTopic] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
   const [isValidTopic, setIsValidTopic] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [placeholderText] = useState(() => getRandomTopicsString(5));
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!topic.trim()) return;
 
@@ -21,6 +26,10 @@ function TopicSelector({ onTopicSubmit }) {
     try {
       // First validate the topic
       const validation = await validateTopic(topic.trim());
+      if (validation === null) {
+        return;
+      }
+
       setIsValidTopic(validation.isValid);
       setValidationMessage(validation.reason);
 
@@ -40,7 +49,7 @@ function TopicSelector({ onTopicSubmit }) {
     }
   };
 
-  const getQuestions = async (topic) => {
+  const getQuestions = async (topic: string) => {
     setTopic(topic);
     setIsValidTopic(true);
     setIsSubmitting(true);
@@ -60,7 +69,7 @@ function TopicSelector({ onTopicSubmit }) {
     onTopicSubmit(topic.trim(), questions);
   };
 
-  const useSuggestedTopic = (suggestedTopic) => {
+  const useSuggestedTopic = (suggestedTopic: string) => {
     // Clear invalid message
     setValidationMessage("");
     // Immediately get questions for this topic

@@ -1,4 +1,7 @@
-const makeAiRequest = async (prompt, retries = 3) => {  
+import { Question } from "src/types/question";
+import { TopicResponse } from "src/types/topic";
+
+const makeAiRequest = async <T>(prompt: string, retries = 3): Promise<T | null> => {  
 
   try {
     const response = await fetch("/api/ask", {
@@ -9,12 +12,12 @@ const makeAiRequest = async (prompt, retries = 3) => {
 
     const data = await response.json();
 
-    return JSON.parse(data.text);
+    return JSON.parse(data.text) as T;
   } catch (error) {
     console.error("OpenAI API Error:", error);
     if (retries > 0) {
       console.warn(`Retrying... (${retries} attempts left)`);
-      return makeAiRequest(prompt, retries - 1);
+      return makeAiRequest<T>(prompt, retries - 1);
     }
     return null;
   }
@@ -23,11 +26,9 @@ const makeAiRequest = async (prompt, retries = 3) => {
 /**
  * Validates if a topic is suitable for generating trivia questions
  * @param {string} topic - The topic to validate
- * @returns {Promise<{isValid: boolean, reason?: string}>}
+ * @returns {Promise<TopicResponse|null>} Validation result or null on failure
  */
-export const validateTopic = async (topic) => {
-
-  let topicData = {}
+export const validateTopic = async (topic: string): Promise<TopicResponse | null> => {
 
   // Determine if the topic is suitable for trivia
   const prompt = `
@@ -50,11 +51,15 @@ export const validateTopic = async (topic) => {
 
   try {
     // Use OpenAI client for validation
-    const response = await makeAiRequest(prompt);
+    const response = await makeAiRequest<TopicResponse>(prompt);
 
     return response;
   } catch (apiError) {
-    console.warn("API validation failed:", apiError.message);
+    if (apiError instanceof Error) {
+      console.warn("API validation failed:", apiError.message);
+    } else {
+      console.warn("API validation failed:", String(apiError));
+    }
   }
 
   return null;
@@ -64,9 +69,9 @@ export const validateTopic = async (topic) => {
  * Generates trivia questions for a validated topic
  * @param {string} topic - The validated topic
  * @param {number} numQuestions - Number of questions to generate (default: 10)
- * @returns {Promise<Array>} Array of trivia questions
+ * @returns {Promise<Question[]>} Array of trivia questions
  */
-export const generateTriviaQuestions = async (topic, numQuestions = 10) => {
+export const generateTriviaQuestions = async (topic: string, numQuestions = 10): Promise<Question[] | null> => {
 
   const prompt = `
     Generate exactly ${numQuestions} trivia questions about "${topic}".
@@ -94,7 +99,7 @@ export const generateTriviaQuestions = async (topic, numQuestions = 10) => {
     `;
 
   try {
-    const response = await makeAiRequest(prompt);
+    const response = await makeAiRequest<Question[]>(prompt);
     return response;
   } catch (err) {
     console.warn(`Failed:`, err);

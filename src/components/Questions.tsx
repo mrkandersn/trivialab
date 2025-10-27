@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { getResultText, getScorePhrase } from "../utils/wordUtils";
+import { getResultText, getScorePhrase } from "src/utils/wordUtils";
+import { Question } from "src/types/question";
 
-const Questions = ({ topic, questions, setSelectedTopic }) => {
-  const [currentId, setCurrentId] = useState(0);
-  const [answerId, setAnswerId] = useState(null);
-  const [score, setScore] = useState(0);
+type QuestionsProps = {
+  topic: string;
+  questions: Question[];
+  setSelectedTopic: (topic: string | undefined) => void;
+}
 
-  const checkAnswer = (id) => {
+const Questions = ({ topic, questions, setSelectedTopic }: QuestionsProps) => {
+  const [currentId, setCurrentId] = useState<number>(0);
+  const [answerId, setAnswerId] = useState<number | undefined>(undefined);
+  const [score, setScore] = useState<number>(0);
+
+  const checkAnswer = (id: number) => {
     setAnswerId(id);
     if (id === currentQuestion().correctAnswer) {
       setScore((prev) => prev + 1);
@@ -16,7 +23,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
 
   const goToNextQuestion = () => {
     // Reset answer, go to next
-    setAnswerId(null);
+    setAnswerId(undefined);
     // TODO check for end
     setCurrentId((prev) => {
       return prev + 1;
@@ -25,7 +32,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
 
   const currentQuestion = () => questions[currentId] || {};
 
-  const getStatusClass = (index) => {
+  const getStatusClass = (index: number) => {
     if (index === answerId) {
       // Set state for clicked button
       return isCorrectAnswer()
@@ -50,7 +57,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
     return getResultText(isCorrectAnswer());
   };
 
-  const showAnswerEmoji = (index) => {
+  const showAnswerEmoji = (index: number) => {
     if (!isAnswered()) {
       return false;
     }
@@ -112,7 +119,7 @@ const Questions = ({ topic, questions, setSelectedTopic }) => {
                 <p>{getScorePhrase(score)}</p>
             </div>
             <button
-              onClick={() => setSelectedTopic(null)}
+              onClick={() => setSelectedTopic(undefined)}
               className="py-2 px-3 rounded-lg font-medium select-none border text-gray-900 bg-white transition-colors hover:border-blue-600 hover:bg-blue-400 hover:text-white mx-auto block cursor-pointer"
             >
               Try again with new topic

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import TopicSelector from './components/TopicSelector';
 import Questions from './components/Questions';
 import './index.css';
+import type { Question } from './types/question';
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState(null);
-  const [questions, setQuestions] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState<string | undefined>();
+  const [questions, setQuestions] = useState<Question[]>([]);
 
-  const handleTopicSubmit = (topic, questions) => {
+  const handleTopicSubmit = (topic: string, questions: Question[]) => {
     setSelectedTopic(topic);
     setQuestions(questions)
   };
@@ -21,7 +22,7 @@ function App() {
             </>
         ) : (
           <div className="bg-white/95 backdrop-blur-xs p-8 rounded-3xl shadow-2xl border border-white/20">
-            <Questions topic={selectedTopic} questions={questions} setSelectedTopic={() => setSelectedTopic()} />
+            <Questions topic={selectedTopic} questions={questions} setSelectedTopic={setSelectedTopic} />
           </div>
         )}
       </div>
