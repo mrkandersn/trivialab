@@ -1,7 +1,9 @@
 
-# trivia
+# TriviaLab
 
 A small React trivia app that uses Anthropic (Claude) via serverless functions.
+
+Demo: https://trivialab.netlify.app/
 
 Getting started (local)
 1. Copy the example env file and fill in secrets:
